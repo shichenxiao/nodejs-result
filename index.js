@@ -1,5 +1,5 @@
 'use strict';
-const colorConvert = require('color-convert');
+const colorConvert = require('color-convert'); //引入第三方模块：颜色转换器
 
 const wrapAnsi16 = (fn, offset) => function () {
 	const code = fn.apply(colorConvert, arguments);
