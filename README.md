@@ -10,5 +10,5 @@ ANSI转义序列是用于控制视频文本终端上的光标位置，颜色和�
 const ansi = require('./index.js');引入
 
 ## Source
-(http://https://github.com/shichenxiao/nodejs-result/edit/master/index.js)[ansi-style index.js 源码]
-(http://https://github.com/shichenxiao/nodejs-result/edit/master/node.js)[ansi-style index.js 源码解读全文注释版]
+[ansi-style index.js 源码](http://https://github.com/shichenxiao/nodejs-result/edit/master/index.js)
+[ansi-style index.js 源码解读全文注释版](http://https://github.com/shichenxiao/nodejs-result/edit/master/node.js)
