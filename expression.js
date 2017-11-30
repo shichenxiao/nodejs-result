@@ -3,31 +3,33 @@
 //引入第三方模块：颜色转换器
 const colorConvert = require('color-convert'); 
 /*
-* rgb 形式的颜色转换 SGR参数30-37选择前景色，而40-47选择背景
+* 颜色转换 SGR参数30-37选择前景色，而40-47选择背景
 * @param  [function] fn 
 * @param  [function] offset 偏移量
+* \u001B 转义字符：
+* ${}EL表达式取值
 */
 const wrapAnsi16 = (fn, offset) => function () {
-	const code = fn.apply(colorConvert, arguments);
-	return `\u001B[${code + offset}m`;//显示16色颜色
+	const code = fn.apply(colorConvert, arguments); 
+	return `\u001B[${code + offset}m`;//返回16色颜色
 };
 /*
-* rgb 形式的颜色转换
+* 颜色转换
 * @param  [function] fn 
 * @param  [function] offset 偏移量
 */
 const wrapAnsi256 = (fn, offset) => function () {
 	const code = fn.apply(colorConvert, arguments);
-	return `\u001B[${38 + offset};5;${code}m`;//显示256色背景颜色
+	return `\u001B[${38 + offset};5;${code}m`;//返回256色背景颜色
 };
 /*
-* rgb 形式的颜色转换
+* 颜色转换
 * @param  [function] fn 
 * @param  [function] offset 偏移量
 */
 const wrapAnsi16m = (fn, offset) => function () {
 	const rgb = fn.apply(colorConvert, arguments);
-	return `\u001B[${38 + offset};2;${rgb[0]};${rgb[1]};${rgb[2]}m`;
+	return `\u001B[${38 + offset};2;${rgb[0]};${rgb[1]};${rgb[2]}m`;//返回rgb背景颜色
 };
 /*
 * rgb 形式的颜色转换
@@ -35,40 +37,40 @@ const wrapAnsi16m = (fn, offset) => function () {
 * @param  [function] offset 偏移量
 */
 function assembleStyles() {
-	const codes = new Map();
+	const codes = new Map();  //map函数（是一种更完善的Hash结构实现）：键值对的集合
 	const styles = {
-		modifier: {   //修饰符
+		modifier: {   //修饰符  SGR参数
 			reset: [0, 0], //重置
 			// 21 isn't widely supported and 22 does the same thing  （21和22都没有得到广泛支持）
-			bold: [1, 22],//加粗
-			dim: [2, 22],//变暗
-			italic: [3, 23],//斜体
-			underline: [4, 24],//下划线
-			inverse: [7, 27],//反色
-			hidden: [8, 28],//隐藏
-			strikethrough: [9, 29] //删除线
+			bold: [1, 22],//[加粗,正常]
+			dim: [2, 22],//[变暗,正常颜色]
+			italic: [3, 23],//[斜体,不倾斜]
+			underline: [4, 24],//[下划线,不加下划线]
+			inverse: [7, 27],//[反色,不进行反色]
+			hidden: [8, 28],//[隐藏,不隐藏]
+			strikethrough: [9, 29] //[删除线,不加删除线]
 		},
-		color: {
-			black: [30, 39],
-			red: [31, 39],
-			green: [32, 39],
-			yellow: [33, 39],
-			blue: [34, 39],
-			magenta: [35, 39],
-			cyan: [36, 39],
-			white: [37, 39],
-			gray: [90, 39],
+		color: {    //颜色 SGR参数   [颜色FG代码,默认的前景色]  FG：前景色
+			black: [30, 39],//黑色   
+			red: [31, 39],//红色
+			green: [32, 39],//绿色
+			yellow: [33, 39],//黄色
+			blue: [34, 39],//蓝色
+			magenta: [35, 39],//品红色
+			cyan: [36, 39],//青色
+			white: [37, 39],//白色
+			gray: [90, 39],//灰色
 
 			// Bright color
-			redBright: [91, 39],
-			greenBright: [92, 39],
-			yellowBright: [93, 39],
-			blueBright: [94, 39],
-			magentaBright: [95, 39],
-			cyanBright: [96, 39],
-			whiteBright: [97, 39]
+			redBright: [91, 39],//明亮的红色
+			greenBright: [92, 39],//明亮的绿色
+			yellowBright: [93, 39],//明亮的黄色
+			blueBright: [94, 39],//明亮的蓝色
+			magentaBright: [95, 39],//明亮的洋红色
+			cyanBright: [96, 39],//明亮的青色
+			whiteBright: [97, 39]//明亮的白色
 		},
-		bgColor: {
+		bgColor: {    //背景颜色  SGR参数  [颜色BG代码,默认的背景色]
 			bgBlack: [40, 49],
 			bgRed: [41, 49],
 			bgGreen: [42, 49],
@@ -92,10 +94,18 @@ function assembleStyles() {
 
 	// Fix humans
 	styles.color.grey = styles.color.gray;
-
-	for (const groupName of Object.keys(styles)) {
-		const group = styles[groupName];
-
+	/*
+	* 外层for-of 循环  定义一个groupName变量
+	* Object.keys() 方法会返回一个由一个给定对象的自身可枚举属性组成的数组，返回[modifier,color,bgcolor]
+	* group:
+	* Object.defineProperty() 方法直接在一个对象上定义一个新属性，或者修改一个已经存在的属性， 并返回这个对象。
+	*/
+	for (const groupName of Object.keys(styles)) {  
+		const group = styles[groupName]; 
+		/*
+		* 内层for-of 循环  定义一个styleName变量
+		* Object.keys() 方法返回modifier,color,bgcolor中的对象
+		*/
 		for (const styleName of Object.keys(group)) {
 			const style = group[styleName];
 
@@ -122,12 +132,12 @@ function assembleStyles() {
 
 	const rgb2rgb = (r, g, b) => [r, g, b];
 
-	styles.color.close = '\u001B[39m';
-	styles.bgColor.close = '\u001B[49m';
+	styles.color.close = '\u001B[39m'; //恢复默认前景色
+	styles.bgColor.close = '\u001B[49m'; //恢复默认背景色
 
-	styles.color.ansi = {};
-	styles.color.ansi256 = {};
-	styles.color.ansi16m = {
+	styles.color.ansi = {}; //增加新的对象ansi
+	styles.color.ansi256 = {}; //增加新的对象ansi256
+	styles.color.ansi16m = {//增加新的对象ansi16m
 		rgb: wrapAnsi16m(rgb2rgb, 0)
 	};
 
@@ -143,6 +153,9 @@ function assembleStyles() {
 		}
 
 		const suite = colorConvert[key];
+		/*
+		*
+		*/
 
 		if ('ansi16' in suite) {
 			styles.color.ansi[key] = wrapAnsi16(suite.ansi16, 0);
@@ -163,7 +176,7 @@ function assembleStyles() {
 	return styles;
 }
 
-// Make the export immutable
+// Make the export immutable 暴露模块接口
 Object.defineProperty(module, 'exports', {
 	enumerable: true,
 	get: assembleStyles
