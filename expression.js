@@ -154,6 +154,7 @@ function assembleStyles() {
 	* for-of循环遍历colorCovert对象
 	* colorCovert对象包括rgb, hsl, hsv, hwb, cmyk, ansi, ansi16,ansi256, hex , keyword 
 	* suit.ansi16、suite.ansi256、suite.rgb为code
+	* 使得ansi16、ansi256、ansi16m分别与colorcovert对象间的转换
 	*/
 	for (const key of Object.keys(colorConvert)) {
 		if (typeof colorConvert[key] !== 'object') {
