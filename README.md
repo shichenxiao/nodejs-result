@@ -5,6 +5,7 @@
 ## Source
 + [ansi-style index.js 源码](https://github.com/shichenxiao/nodejs-result/blob/master/index.js)   
 + [ansi-style index.js 源码解读全文注释版](https://github.com/shichenxiao/nodejs-result/blob/master/expression.js)
++ [markdown笔记](http://note.youdao.com/noteshare?id=5b4820e02832694e2255e0e217f02c4c)
 ## 参考
 + [ANSI escape code(ansi转义码)](https://en.wikipedia.org/wiki/ANSI_escape_code#Colors_and_Styles)
 + [color-convert颜色转换模块](https://github.com/Qix-/color-convert)
