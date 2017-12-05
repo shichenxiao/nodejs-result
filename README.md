@@ -1,6 +1,13 @@
 # ansi-styles（ansi风格）
 > 用于终端中的样式字符串的ANSI转义码
 ![](screenshot.png)
+
+## Source
++ [ansi-style index.js 源码](https://github.com/shichenxiao/nodejs-result/blob/master/index.js)   
++ [ansi-style index.js 源码解读全文注释版](https://github.com/shichenxiao/nodejs-result/blob/master/expression.js)
+## 参考
++ [ANSI escape code(ansi转义码)](https://en.wikipedia.org/wiki/ANSI_escape_code#Colors_and_Styles)
++ [color-convert颜色转换模块](https://github.com/Qix-/color-convert)
 ## 安装
 ```
   $ npm install ansi-styles
@@ -76,6 +83,3 @@ console.log(style.color.ansi16m.hex('#ABCDEF') + 'Hello world!' + style.color.cl
 - `bgCyanBright`
 - `bgWhiteBright`
 
-## Source
-[ansi-style index.js 源码](https://github.com/shichenxiao/nodejs-result/blob/master/index.js) 
-[ansi-style index.js 源码解读全文注释版](https://github.com/shichenxiao/nodejs-result/blob/master/node.js)
