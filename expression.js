@@ -157,23 +157,23 @@ function assembleStyles() {
 	* 使得ansi16、ansi256、ansi16m分别与colorcovert对象间的转换
 	*/
 	for (const key of Object.keys(colorConvert)) {
-		if (typeof colorConvert[key] !== 'object') {
+		if (typeof colorConvert[key] !== 'object') { //如果colorCovert对象的类型不是Object，则继续
 			continue;
 		}
 
-		const suite = colorConvert[key];
+		const suite = colorConvert[key]; //suite = {rgb, hsl, hsv, hwb, cmyk, ansi, ansi16,ansi256, hex , keyword} 
 
-		if ('ansi16' in suite) {
+		if ('ansi16' in suite) { //如果suite包含ansi16，那么实现ansi和colorCovert对象之间的转换（16色）
 			styles.color.ansi[key] = wrapAnsi16(suite.ansi16, 0);
 			styles.bgColor.ansi[key] = wrapAnsi16(suite.ansi16, 10);
 		}
 
-		if ('ansi256' in suite) {
+		if ('ansi256' in suite) {  //如果suite包含ansi256，那么实现ansi256和colorCovert对象之间的转换（256色）
 			styles.color.ansi256[key] = wrapAnsi256(suite.ansi256, 0);
 			styles.bgColor.ansi256[key] = wrapAnsi256(suite.ansi256, 10);
 		}
 
-		if ('rgb' in suite) {
+		if ('rgb' in suite) {  //如果suite包含rgb，那么实现rgb和colorCovert对象之间的转换（rgb形式）
 			styles.color.ansi16m[key] = wrapAnsi16m(suite.rgb, 0);
 			styles.bgColor.ansi16m[key] = wrapAnsi16m(suite.rgb, 10);
 		}
