@@ -15,7 +15,7 @@ const wrapAnsi16 = (fn, offset) => function () {
 	return `\u001B[${code + offset}m`;
 };
 /*
-* 颜色转换（返回256色背景颜色）
+* 颜色转换（返回256色）
 * @param  [function] fn 
 * @param  [function] offset 偏移量
 */
@@ -24,7 +24,7 @@ const wrapAnsi256 = (fn, offset) => function () {
 	return `\u001B[${38 + offset};5;${code}m`;
 };
 /*
-* 颜色转换（返回rgb背景颜色）
+* 颜色转换（返回rgb）
 * @param  [function] fn 
 * @param  [function] offset 偏移量
 */
@@ -33,7 +33,7 @@ const wrapAnsi16m = (fn, offset) => function () {
 	return `\u001B[${38 + offset};2;${rgb[0]};${rgb[1]};${rgb[2]}m`;
 };
 /*
-* 
+* 实现具体的颜色转化
 * @param  [function] fn 
 * @param  [function] offset 偏移量
 */
